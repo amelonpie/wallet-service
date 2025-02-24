@@ -15,14 +15,7 @@ Only test the internal codes. No need to test package database as it needs to co
 go test ./internal/... -race -cover
 ```
 To test the goleak, comment out line 15-17 of `internal/wallet/repository_test.go`, and line 16-18 of `internal/endpoint/transaction_test.go`
-#### Coverage
-The current coverage is below. From my understanding, only public methods need unit test. In this way, some branches of error handling are be hard to reach.
 
-It may be the places where I should improve myself, to learn how to design codes that make unit test reachable as much as possible. Maybe if there are more efforts that will come a way.
-```sh
-ok      github.com/amelonpie/wallet-service/internal/endpoint   1.247s  coverage: 62.0% of statements
-ok      github.com/amelonpie/wallet-service/internal/wallet     1.337s  coverage: 73.6% of statements
-```
 ### API test
 TBD: Postman
 #### curl
