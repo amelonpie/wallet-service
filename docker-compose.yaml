@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis/redis-stack:latest
+    container_name: redis-stack
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    networks:
+      - wallet-network
+
+  mypostgres:
+    image: postgres:latest
+    container_name: mypostgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: bank
+    ports:
+      - "5432:5432"
+    command: ["postgres", "-c", "ssl=off"]
+    volumes:
+      - ./configs/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - wallet-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "bank"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  wallet-service:
+    image: wallet_service:latest
+    container_name: wallet_service
+    depends_on:
+      mypostgres:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./configs/config.yaml:/root/config.yaml
+    networks:
+      - wallet-network
+
+networks:
+  wallet-network:
+    driver: bridge
