@@ -40,7 +40,7 @@ func InitRepository() (Repository, error) {
 func newWalletRepository(db *sql.DB) Repository {
 	return &walletRepository{
 		db:     db,
-		logger: log.NewLogger("wallet").WithField("module", "endpoints"),
+		logger: log.NewLogger("wallet").WithField("module", "endpoint"),
 	}
 }
 
