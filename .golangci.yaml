@@ -377,4 +377,4 @@ issues:
         - err113
 
   exclude-dirs:
-    - "ext/decimal/ericlagergren" 
+    - "pkg" 
